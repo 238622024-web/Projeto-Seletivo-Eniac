@@ -1,0 +1,172 @@
+﻿LWFA - Sistema de Recrutamento
+
+## 📋 Instalação e Configuração
+
+### Pré-requisitos
+- PHP 7.4 ou superior
+- MySQL 5.7 ou superior
+- Servidor web (Apache/Nginx)
+- Extensões PHP: PDO, PDO_MySQL, mbstring, fileinfo
+
+### 1. Configuração do Banco de Dados
+
+1. Crie um banco de dados MySQL:
+```sql
+CREATE DATABASE eniac_link CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
+2. Execute o arquivo `database.sql` para criar as tabelas:
+```bash
+mysql -u root -p eniac_link < database.sql
+```
+
+3. Configure as credenciais do banco em `config.php`:
+```php
+private $host = 'localhost';
+private $dbname = 'eniac_link';
+private $username = 'root';
+private $password = 'sua_senha';
+```
+
+### 2. Configuração de Upload
+Crie uma pasta `uploads/` com permissões de escrita:
+```bash
+mkdir uploads
+chmod 755 uploads
+```
+
+### 3. Usuário Administrativo Padrão
+- **Email:** admin@eniaclink.com
+- **Senha:** password
+
+⚠️ **IMPORTANTE:** Altere a senha padrão após o primeiro login!
+
+## 🚀 Funcionalidades
+
+### 📱 Frontend (HTML/CSS/JS)
+- **index.php** - Página inicial responsiva
+- **cadastro.html** - Formulário de cadastro de candidatos
+- **vagas.html** - Listagem e busca de vagas
+- **admin.html** - Painel administrativo
+
+### 🔧 Backend (PHP)
+- **config.php** - Configurações e funções auxiliares
+- **processar_cadastro.php** - Processa cadastro de candidatos
+- **listar_vagas.php** - API para listagem de vagas
+- **candidatar_vaga.php** - Processa candidaturas
+- **admin_dashboard.php** - Dados do painel administrativo
+- **login_admin.php** - Autenticação de administradores
+- **api.php** - API geral para consultas
+
+### 🗄️ Banco de Dados
+- **candidatos** - Dados dos candidatos
+- **vagas** - Vagas disponíveis
+- **candidaturas** - Relacionamento candidato-vaga
+- **entrevistas** - Agendamento de entrevistas
+- **usuarios_admin** - Usuários administrativos
+- **atividades** - Log de ações do sistema
+
+## 📖 Como Usar
+
+### Para Candidatos:
+1. Acesse a página inicial
+2. Clique em "Cadastro" 
+3. Preencha seus dados e envie currículo
+4. Navegue pelas vagas disponíveis
+5. Candidate-se às vagas de interesse
+
+### Para RH/Administradores:
+1. Acesse `/login_admin.php`
+2. Faça login com as credenciais
+3. Acesse o painel administrativo
+4. Gerencie candidatos, vagas e entrevistas
+5. Exporte relatórios
+
+## 🔧 APIs Disponíveis
+
+### GET /api.php?action=buscar_candidato&email={email}
+Busca candidato por email
+
+### GET /listar_vagas.php?ajax=1
+Lista vagas com filtros
+
+### POST /candidatar_vaga.php
+Envia candidatura para vaga
+
+### GET /api.php?action=estatisticas_dashboard
+Retorna estatísticas do dashboard
+
+## 📊 Funcionalidades do Sistema
+
+### ✅ Gestão de Candidatos
+- Cadastro completo com upload de currículo
+- Validação de dados (CPF, email)
+- Status de candidatura
+- Histórico de atividades
+
+### ✅ Gestão de Vagas
+- Criação e edição de vagas
+- Filtros avançados de busca
+- Controle de candidaturas
+- Estatísticas de popularidade
+
+### ✅ Processo Seletivo
+- Agendamento de entrevistas
+- Controle de status
+- Notificações por email
+- Relatórios e exportação
+
+### ✅ Painel Administrativo
+- Dashboard com estatísticas
+- Gestão de candidatos
+- Atividade em tempo real
+- Exportação de dados
+
+## 📧 Configuração de Email
+
+Para que os emails funcionem, configure o servidor SMTP ou use a função `mail()` do PHP.
+
+## 🔒 Segurança
+
+- Validação e sanitização de dados
+- Senhas criptografadas (password_hash)
+- Proteção contra SQL Injection
+- Controle de sessões
+- Upload seguro de arquivos
+
+## 📱 Responsividade
+
+O sistema é totalmente responsivo e funciona em:
+- Desktop
+- Tablets
+- Smartphones
+
+## 🎨 Design
+
+- Design moderno e profissional
+- Cores corporativas consistentes
+- Animações suaves
+- Interface intuitiva
+- Experiência do usuário otimizada
+
+## 🔄 Próximas Funcionalidades
+
+- [ ] Sistema de notificações push
+- [ ] Chat entre candidatos e RH
+- [ ] Integração com LinkedIn
+- [ ] Testes online
+- [ ] Videoconferência integrada
+- [ ] App mobile
+
+## 🆘 Suporte
+
+Para dúvidas ou problemas:
+1. Verifique os logs de erro do PHP
+2. Confirme as permissões de arquivo
+3. Teste a conexão com banco de dados
+4. Verifique configurações de email
+
+## 📄 Licença
+
+Este projeto é proprietário da LWFA. Todos os direitos reservados.
+

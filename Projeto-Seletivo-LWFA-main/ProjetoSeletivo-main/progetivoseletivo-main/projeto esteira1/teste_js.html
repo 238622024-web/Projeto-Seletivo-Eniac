@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste JavaScript - Testimonials</title>
+</head>
+<body>
+    <h1>Teste do JavaScript para Testimonials</h1>
+    
+    <div id="resultado"></div>
+    
+    <script>
+        console.log('Script iniciado...');
+        
+        // Teste da requisição para a API
+        fetch('api.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: 'action=get_testimonials_candidatos'
+        })
+        .then(response => {
+            console.log('Resposta recebida:', response);
+            return response.json();
+        })
+        .then(data => {
+            console.log('Dados recebidos:', data);
+            document.getElementById('resultado').innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+        })
+        .catch(error => {
+            console.error('Erro na requisição:', error);
+            document.getElementById('resultado').innerHTML = '<p style="color: red;">Erro: ' + error.message + '</p>';
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste Testimonials - Página Simplificada</title>
+    <style>
+        .testimonial-card {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 10px;
+            border-radius: 10px;
+            background: #f9f9f9;
+        }
+        .author-avatar {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: #007bff;
+            color: white;
+            text-align: center;
+            line-height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            margin-top: 15px;
+        }
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <h1>Teste de Testimonials - Versão Simplificada</h1>
+    
+    <div id="status"></div>
+    
+    <div id="candidatesTestimonials" class="loading">
+        Carregando testimonials...
+    </div>
+
+    <script>
+        document.getElementById('status').innerHTML = '🔄 Iniciando teste...';
+        
+        console.log('🚀 Script iniciado');
+        
+        window.addEventListener('load', function() {
+            console.log('📄 Página carregada, iniciando teste da API');
+            document.getElementById('status').innerHTML = '📡 Fazendo requisição para API...';
+            
+            fetch('api.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'action=get_testimonials_candidatos'
+            })
+            .then(response => {
+                console.log('📨 Resposta recebida:', response);
+                document.getElementById('status').innerHTML = '📨 Resposta recebida, processando JSON...';
+                return response.text(); // Primeiro como texto para debug
+            })
+            .then(text => {
+                console.log('📝 Resposta em texto:', text);
+                document.getElementById('status').innerHTML = '📝 Texto recebido: ' + text.substring(0, 100) + '...';
+                
+                try {
+                    const data = JSON.parse(text);
+                    console.log('📊 JSON parsed:', data);
+                    
+                    if (data.success) {
+                        document.getElementById('status').innerHTML = '✅ Sucesso! Mostrando ' + data.testimonials.length + ' testimonials';
+                        displayTestimonials(data.testimonials);
+                    } else {
+                        document.getElementById('status').innerHTML = '❌ API retornou erro: ' + data.message;
+                    }
+                } catch (e) {
+                    console.error('❌ Erro ao fazer parse do JSON:', e);
+                    document.getElementById('status').innerHTML = '❌ Erro JSON: ' + e.message;
+                }
+            })
+            .catch(error => {
+                console.error('❌ Erro na requisição:', error);
+                document.getElementById('status').innerHTML = '❌ Erro na requisição: ' + error.message;
+            });
+        });
+        
+        function displayTestimonials(testimonials) {
+            const grid = document.getElementById('candidatesTestimonials');
+            grid.innerHTML = '';
+            
+            if (testimonials.length === 0) {
+                grid.innerHTML = '<p>Nenhum testimonial encontrado</p>';
+                return;
+            }
+            
+            testimonials.forEach(testimonial => {
+                const initials = testimonial.nome.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+                
+                const card = document.createElement('div');
+                card.className = 'testimonial-card';
+                card.innerHTML = `
+                    <p><strong>Mensagem:</strong> "${testimonial.mensagem}"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">${initials}</div>
+                        <div>
+                            <strong>${testimonial.nome}</strong><br>
+                            ${testimonial.cargo}${testimonial.empresa ? ' - ' + testimonial.empresa : ''}
+                        </div>
+                    </div>
+                `;
+                
+                grid.appendChild(card);
+            });
+        }
+    </script>
+</body>
+</html>
